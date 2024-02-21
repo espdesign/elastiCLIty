@@ -15,6 +15,7 @@
 import json
 
 QA_BANK = []
+ERROR_INPUT_OPTION = "ERROR: input is not available"
 
 """
 
@@ -41,10 +42,20 @@ def load_cards(category="", module="", flag=""):
         
     ## First check if module was chosen, if null then skip over and check for category
     if (module):
-        for question, answer in data[category][module].items():
-            cardbankQuestions.append(question)
-            cardbankAnswers.append(answer)
-        return(cardbankQuestions, cardbankAnswers)
+        try:
+            for question, answer in data[category][module].items():
+                cardbankQuestions.append(question)
+                cardbankAnswers.append(answer)
+            
+            return(cardbankQuestions, cardbankAnswers)
+        
+        except KeyError:
+            return KeyError
+        
+            
+
+
+        
     ## first startup of program category should be empty                
     if (category == ""):
         return cardbankCategorys
@@ -52,24 +63,53 @@ def load_cards(category="", module="", flag=""):
     ## once category is chosen return the list of categorys in our cardbank.json
     elif (category):
         # print("category:", category)
-        for i in data[category].items():
-            cardbankModules.append(i[0])
-        return cardbankModules
+        try:
+            for i in data[category].items():
+                cardbankModules.append(i[0]) 
+            return cardbankModules
+        except KeyError:
+            return KeyError
+       
+        
     
     ## function that will prompt the user to load a question bank
 def create_QA_bank(category="", module="", flag=""):
     # Create and prompt for category menu
-    menu = load_cards()
-    print(menu)
-    chosenOptionCategory = input("? Please choose an option: ")
-    # Create and prompt for module menu
-    menu = load_cards(category=chosenOptionCategory)
-    print(menu)
-    chosenOptionModule = input("? Please choose an option: ")
+    def main_menu_():
 
+            
+
+
+        main_menu_list = load_cards()
+        print(main_menu_list)
+        chosenCat = input("? Please choose an category: ")
+    
+
+        module_menu_list = load_cards(category=chosenCat)
+
+        if module_menu_list == KeyError:
+            print(ERROR_INPUT_OPTION)
+            main_menu_()
+        else:
+            print(module_menu_list)
+            module_menu_(chosenCat, input("? Please choose a module: "))
+
+    def module_menu_(chosenCat, chosenMod):
     #load the chosen module into the global question and answer bank list
-    loadedModuleBank = load_cards(category=chosenOptionCategory, module=chosenOptionModule)
-    return loadedModuleBank
+            loadedModuleBank = load_cards(category=chosenCat, module=chosenMod)
+            if loadedModuleBank == KeyError:
+                print(ERROR_INPUT_OPTION)
+                module_menu_(chosenCat, input("? Please choose a module: "))
+            else:
+                return loadedModuleBank
+
+    
+    return main_menu_()
+    
+
+
+    # Create and prompt for module menu
+    
 
 """
 
@@ -79,8 +119,6 @@ START OF PROGRAM
 
 """
 QA_BANK = create_QA_bank()
-
-
 
 
 print(QA_BANK)

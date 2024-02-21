@@ -81,6 +81,4 @@ START OF PROGRAM
 QA_BANK = create_QA_bank()
 
 
-
-
 print(QA_BANK)
