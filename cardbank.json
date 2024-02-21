@@ -1,0 +1,37 @@
+{
+  "linux": {
+    "module 0": {
+      "Display the date and time.": "date",
+      "Display the month as a calender.": "cal",
+      "Display the name of current user.": "whoami",
+      "Display the name of currently logged-in computer.": "hostname",
+      "Identify the name of operating system kernel": "uname",
+      "Display the CPU information": "lscpu",
+      "Identify the RAM information": "free",
+      "List the storage devices attached to the system": "lsblk",
+      "List the free storage information": "df",
+      "Identify the system's network settings": "ifconfig",
+      "Identify the other logged-in users": "who"
+    },
+    "module 1": {
+      "Display the date and time one week from now.": "date -d \"week\"",
+      "Display the calender month in Nov 92": "cal nov 92",
+      "Identify the details of the operating system": "uname -a"
+    }
+  },
+  "vi": {
+    "module 3": {
+      "Move cursor down one line": "j",
+      "Move cursor up one line": "k",
+      "Move cursor left one space": "h",
+      "Move cursor righ one space": "l"
+    },
+    "module 4": {
+      "delete (cut) a line ": "dd",
+      "quit and throw away unsaved changes ": [
+        "q!",
+        "ZQ"
+      ]
+    }
+  }
+}
