@@ -1,73 +1,86 @@
+# import json
+
+# def loadcards(category, module):
+#     f = open('cards.json')
+#     data = json.load(f)
+#     f.close()
+ 
+#     for i in data[category]:
+#         print(i)
+
+#     return(data[category][module])
+
+# loadcards("Linux", "0")
+
 import json
 
-def loadcards(category, module):
-    f = open('cards.json')
+QA_BANK = []
+
+"""
+
+Load from cardbank.json
+
+"""
+
+def load_cards(category="", module="", flag=""):
+    f = open('cardbank.json')
     data = json.load(f)
     f.close()
- 
-    for i in data[category]:
-        print(i)
 
-    return(data[category][module])
+    # define data return variables
+    cardbankQuestions = []
+    cardbankAnswers = []
+    cardbankCategorys = []
+    cardbankModules = []
+
+    ## First find categorys available
+    for i in data.items():
+        cardbankCategorys.append(i[0])
+
+    ## Check for options, if no options exist. return the categorys.
+        
+    ## First check if module was chosen, if null then skip over and check for category
+    if (module):
+        for question, answer in data[category][module].items():
+            cardbankQuestions.append(question)
+            cardbankAnswers.append(answer)
+        return(cardbankQuestions, cardbankAnswers)
+    ## first startup of program category should be empty                
+    if (category == ""):
+        return cardbankCategorys
+    
+    ## once category is chosen return the list of categorys in our cardbank.json
+    elif (category):
+        # print("category:", category)
+        for i in data[category].items():
+            cardbankModules.append(i[0])
+        return cardbankModules
+    
+    ## function that will prompt the user to load a question bank
+def create_QA_bank(category="", module="", flag=""):
+    # Create and prompt for category menu
+    menu = load_cards()
+    print(menu)
+    chosenOptionCategory = input("? Please choose an option: ")
+    # Create and prompt for module menu
+    menu = load_cards(category=chosenOptionCategory)
+    print(menu)
+    chosenOptionModule = input("? Please choose an option: ")
+
+    #load the chosen module into the global question and answer bank list
+    loadedModuleBank = load_cards(category=chosenOptionCategory, module=chosenOptionModule)
+    return loadedModuleBank
+
+"""
 
 
-# Declare global Menu Dictionarys 
-MENU_DICT = [
-    # MENU_DICT[0] == Menu Title
-    {0: 'Main Menu', 1: 'Linux Basics.',2: 'Git.', 3: 'Grep', 4: 'Ports'},
-    {0: 'Linux Basics,', 1: 'Linux Level One', 2: 'Linux Level Two', 3: 'Linux Level Three.'},
-    {0: 'Git', 1: 'Git Level One', 2: 'Git Level Two', 3: 'Git Level Three.'},
-    {0: 'Grep', 1: 'Grep Level One', 2: 'Grep Level Two', 3: 'Grep Level Three.'},
-    {0: 'Ports', 1: 'Ports Level One', 2: 'Ports Level Two', 3: 'Ports Level Three.'}
-    ]
+START OF PROGRAM
 
 
-#Iterate over the chosen menu and render it out
-def render_menu(menuID):
-    for x in MENU_DICT[menuID]:
-        ## the menu title is always key 0
-        if x == 0:
-            print(MENU_DICT[menuID][x])
-        ## if not menu title, first key, print the option and option string
-        else:
-            print(x, MENU_DICT[menuID][x])
-    # if not main menu print return option
-    if menuID != 0:
-        print("0 Return to main menu")
-
-    # prompt for menu option choice  
-    optionID = int(input("Pick an Option: "))
-    while optionID not in MENU_DICT[menuID]:
-        optionID = int(input("Pick a better Option: "))
-    menu_choice(menuID, optionID)
-    # optionID = int(input("Pick an Option: "))
-
-    # while optionID not in MENU_DICT[menuID]:
-    #     invalid_option(menuID, optionID)
-
-    # menu_choice(menuID, optionID)
-
-  
-def invalid_option(menuID, optionID):
-    input("Sorry {} is not a valid menu option.\npress enter to continue...".format(optionID))
-    render_menu(menuID)
-
-#process menu chosen menu option
-def menu_choice(menuID, optionID):
-    loadMenuID = optionID
-    # print(f"Loading {MENU_DICT[menuID][optionID]}")
-    # current_menu = MENU_DICT[menuID][optionID]
-    render_menu(loadMenuID)
-
-# Start the main menu render
-print("man Cards -- learn linux with CLI flashcards")
-render_menu(0)
+"""
+QA_BANK = create_QA_bank()
 
 
 
 
-
-
-# def menu_error(menuID, optionID):
-#     input("Sorry {} is not a valid option, press enter to continue...".format(optionID))
-#     menu_return(menuID)
+print(QA_BANK)
