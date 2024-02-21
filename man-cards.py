@@ -77,14 +77,10 @@ def create_QA_bank(category="", module="", flag=""):
     # Create and prompt for category menu
     def main_menu_():
 
-            
-
-
         main_menu_list = load_cards()
         print(main_menu_list)
         chosenCat = input("? Please choose an category: ")
     
-
         module_menu_list = load_cards(category=chosenCat)
 
         if module_menu_list == KeyError:
@@ -92,17 +88,17 @@ def create_QA_bank(category="", module="", flag=""):
             main_menu_()
         else:
             print(module_menu_list)
-            module_menu_(chosenCat, input("? Please choose a module: "))
+            return module_menu_(chosenCat, input("? Please choose a module: "))
+            
 
     def module_menu_(chosenCat, chosenMod):
     #load the chosen module into the global question and answer bank list
-            loadedModuleBank = load_cards(category=chosenCat, module=chosenMod)
-            if loadedModuleBank == KeyError:
-                print(ERROR_INPUT_OPTION)
-                module_menu_(chosenCat, input("? Please choose a module: "))
-            else:
-                return loadedModuleBank
-
+        loadedModuleBank = load_cards(category=chosenCat, module=chosenMod)
+        if loadedModuleBank == KeyError:
+            print(ERROR_INPUT_OPTION)
+            module_menu_(chosenCat, input("? Please choose a module: "))
+        else:
+            return loadedModuleBank
     
     return main_menu_()
     
