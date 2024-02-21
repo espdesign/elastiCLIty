@@ -1,18 +1,28 @@
-# Python program to read
-# json file
-import json
-# Opening JSON file
-f = open('cards.json')
-# returns JSON object as 
-# a dictionary
-data = json.load(f)
-# Iterating through the json
-# list
+# import json
 
-print(data["Linux Modules"]["M1"])
-
-for i in data["Linux Modules"]["M1"]:
-    print(i)
+# def loadcards(category, module):
+#     f = open('cards.json')
+#     data = json.load(f)
+#     f.close()
  
-# Closing file
-f.close()
+#     for i in data[category]:
+#         print(i)
+
+#     return(data[category][module])
+
+# loadcards("Linux", "0")
+
+import json
+
+def loadcards(category):
+    f = open('cards.json')
+    data = json.load(f)
+    f.close()
+ 
+    for i in data[category]:
+        for i in i:
+            print(i)
+
+    return(data[category])
+
+loadcards("Linux")

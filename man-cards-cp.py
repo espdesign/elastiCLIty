@@ -1,16 +1,3 @@
-import json
-
-def loadcards(category, module):
-    f = open('cards.json')
-    data = json.load(f)
-    f.close()
- 
-    for i in data[category]:
-        print(i)
-
-    return(data[category][module])
-
-
 # Declare global Menu Dictionarys 
 MENU_DICT = [
     # MENU_DICT[0] == Menu Title
