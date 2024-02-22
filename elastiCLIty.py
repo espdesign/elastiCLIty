@@ -2,8 +2,6 @@ import json
 import random
 
 
-QA_DATA_BANK = []
-
 ## Load data from file
 def load_json():
     f = open('cardbank.json')
@@ -100,6 +98,7 @@ def data_bank_builder(chosenModule):
     game(QUESTION_BANK,ANSWER_BANK)
 
 
+## main game logic
 def game(QUESTION_BANK, ANSWER_BANK):
     cls = lambda: print('\n'*100)
     indexLength = len(QUESTION_BANK) - 1
@@ -117,5 +116,5 @@ def game(QUESTION_BANK, ANSWER_BANK):
     game(QUESTION_BANK, ANSWER_BANK)
 
 
-
+## init the main menu
 main_menu()
