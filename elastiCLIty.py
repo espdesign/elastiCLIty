@@ -100,21 +100,78 @@ def data_bank_builder(chosenModule):
 
 ## main game logic
 def game(QUESTION_BANK, ANSWER_BANK):
+
     cls = lambda: print('\n'*100)
-    indexLength = len(QUESTION_BANK) - 1
-    randQuestionIndex = random.randint(0, indexLength)
-    correct_answer = ANSWER_BANK[randQuestionIndex]
-    player_answer = input(f"{QUESTION_BANK[randQuestionIndex]}? : $ ")
+        
 
-    if player_answer == correct_answer:
-        cls()
-        print("Correct!")
+    def random_question_index():
+        QUESTION_BANK_indexLength = len(QUESTION_BANK) - 1
+        return random.randint(0, QUESTION_BANK_indexLength)
+    
+    def load_question_from_random_index():
+        index = random_question_index()
+        question = QUESTION_BANK[index]
+        return question, index
 
-    else:
-        print(f"Incorrect, the answer is: {correct_answer}")
+    def load_question_answer_from_index(index):
+        answerAtIndex = ANSWER_BANK[index]
+        return answerAtIndex
 
+
+    def print_question():
+        question, index = load_question_from_random_index()
+        # print(f"question is: {question}, index is {index}")
+        print(QUESTION_BANK[index])
+        return index, question
+    
+    def prompt_for_answer():
+        player_answer = input("$ ")
+        return player_answer
+    
+
+    def check_answer_is_correct(player_answer, index_of_correct_answer):
+        correct_answer = load_question_answer_from_index(index_of_correct_answer)
+        if player_answer == correct_answer:
+            return True
+        else:
+            return False
+
+    ## Clear Screen
+    def game_question_loop():
+        
+        
+
+        def firstQuestion():
+            print("firstQuestion")
+            # cls()
+            index_of_correct_answer, question = print_question()
+            player_answer = prompt_for_answer()
+            bool = check_answer_is_correct(player_answer, index_of_correct_answer)
+            print(bool)
+
+            if bool == True:
+                nextQuestion()
+            else:
+                sameQuestion(question, index_of_correct_answer)
+
+        
+        def nextQuestion():
+            print("nextQuestion")
+
+        def sameQuestion(question, index_answer):
+            print("sameQuestion")
+            print(f"Same question: {question} and index for answer is {index_answer}")
+            nextQuestion(question, index_answer)
+
+
+        firstQuestion()
+
+    game_question_loop()
+    
+## Start Main Game Loop    
     game(QUESTION_BANK, ANSWER_BANK)
 
 
-## init the main menu
+
+## Start MAIN MENU
 main_menu()

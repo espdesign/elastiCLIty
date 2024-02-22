@@ -1,6 +1,6 @@
 {
   "linux": {
-    "module 0": {
+    "module 1": {
       "Display the date and time.": "date",
       "Display the month as a calender.": "cal",
       "Display the name of current user.": "whoami",
@@ -13,7 +13,7 @@
       "Identify the system's network settings": "ifconfig",
       "Identify the other logged-in users": "who"
     },
-    "module 1": {
+    "module 2": {
       "Display the date and time one week from now.": "date -d \"week\"",
       "Display the calender month in Nov 92": "cal nov 92",
       "Identify the details of the operating system": "uname -a"
