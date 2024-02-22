@@ -2,6 +2,12 @@ import json
 import random
 
 
+"""
+########################
+    START OF 
+    MENU SYSTEM
+#######################
+"""
 ## Load data from file
 def load_json():
     f = open('cardbank.json')
@@ -86,6 +92,12 @@ def module_menu(chosenCategory):
     data_bank_builder(chosenModule)
 
 
+"""
+########################
+    START OF 
+    GAME SYSTEM
+#######################
+"""
 
 #load the question and answer banks from chosen menu options
 def data_bank_builder(chosenModule):
@@ -116,14 +128,21 @@ def game(QUESTION_BANK, ANSWER_BANK):
     def load_question_answer_from_index(index):
         answerAtIndex = ANSWER_BANK[index]
         return answerAtIndex
-
+    
+    def load_question_from_index(index):
+        questionAtIndex = QUESTION_BANK[index]
+        return questionAtIndex
 
     def print_question():
         question, index = load_question_from_random_index()
         # print(f"question is: {question}, index is {index}")
         print(QUESTION_BANK[index])
-        return index, question
+        return question, index
     
+    def print_answer(index):
+        print(ANSWER_BANK[index])
+        return
+
     def prompt_for_answer():
         player_answer = input("$ ")
         return player_answer
@@ -139,38 +158,43 @@ def game(QUESTION_BANK, ANSWER_BANK):
     ## Clear Screen
     def game_question_loop():
         
-        
+        def first_question_init():
+            cls()
 
-        def firstQuestion():
-            print("firstQuestion")
-            # cls()
-            index_of_correct_answer, question = print_question()
+            question, index = print_question()
             player_answer = prompt_for_answer()
-            bool = check_answer_is_correct(player_answer, index_of_correct_answer)
-            print(bool)
 
+            bool = check_answer_is_correct(player_answer, index)
+            
+            question_next_logic(bool, index)
+
+        def question_next_logic(bool, index):
             if bool == True:
-                nextQuestion()
+                print(f"CORRECT!")
+                initalize_new_question()
             else:
-                sameQuestion(question, index_of_correct_answer)
+                print(f"WRONG: \n The correct answer is:", load_question_answer_from_index(index))
+                
+                initalize_same_question(index)
+            
 
+        def initalize_new_question():
+            first_question_init()
         
-        def nextQuestion():
-            print("nextQuestion")
-
-        def sameQuestion(question, index_answer):
-            print("sameQuestion")
-            print(f"Same question: {question} and index for answer is {index_answer}")
-            nextQuestion(question, index_answer)
+        def initalize_same_question(index):
+            print(load_question_from_index(index))
+            player_answer = prompt_for_answer()
+            bool = check_answer_is_correct(player_answer, index)
+            question_next_logic(bool, index)
 
 
-        firstQuestion()
+
+        first_question_init()
 
     game_question_loop()
     
 ## Start Main Game Loop    
     game(QUESTION_BANK, ANSWER_BANK)
-
 
 
 ## Start MAIN MENU
