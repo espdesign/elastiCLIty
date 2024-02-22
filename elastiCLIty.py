@@ -1,4 +1,6 @@
 import json
+import random
+
 
 QA_DATA_BANK = []
 
@@ -60,15 +62,23 @@ ANSWER_BANK = []
 for q, a in QA_DATA_BANK.items():
     QUESTION_BANK.append(q)
     ANSWER_BANK.append(a)
+    
+
 
 
 def game():
-    player_answer = input(f"{QUESTION_BANK[0]}? : $ ")
-    correct_answer = ANSWER_BANK[0]
+    cls = lambda: print('\n'*100)
+    indexLength = len(QUESTION_BANK) - 1
+    randQuestionIndex = random.randint(0, indexLength)
+    correct_answer = ANSWER_BANK[randQuestionIndex]
+    player_answer = input(f"{QUESTION_BANK[randQuestionIndex]}? : $ ")
+
     if player_answer == correct_answer:
+        cls()
         print("Correct!")
+
     else:
-        print("Incorrect")
+        print(f"Incorrect, the answer is: {correct_answer}")
     game()
 
 game()
