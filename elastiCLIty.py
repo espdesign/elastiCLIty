@@ -21,52 +21,86 @@ def list_categories():
 
 ## List the modules from the chosenCategory listed in cardbank.json file
 def list_modules(chosenCategory):
-    modulesList = []
-    for i in chosenCategory.keys():
-        modulesList.append(i)
-    return modulesList
+    if chosenCategory == None:
+        return None
+    else: 
+        modulesList = []
+        for i in chosenCategory.keys():
+            modulesList.append(i)
+        return modulesList
 
 ## return a dictonary of a specific category key
 def load_chosen_category(arg):
     data = load_json()
-    return data[arg]
+    try:
+        data[arg]
+    except KeyError:
+        print("load_chosen_category: Key Error:")
+        return None
+    else:
+        return data[arg]
 
 ## return the data of a chosen category & module 
-def load_chosen_module(chosenCat, chosenMod):
-    data = load_json()[chosenCat][chosenMod]
-    return data
+def load_chosen_module(chosenCatDict, ChosenModule):
+
+    try:
+        chosenCatDict[ChosenModule]
+    except KeyError:
+        print("Load_chosen_module: KeyError")
+        return None
+    else:
+        return chosenCatDict[ChosenModule]
+
+
+## Handle key errors: input
+def category_input_checker():
+    print(list_categories())
+    chosenCategory = load_chosen_category(input("Pick a category: "))
+    ## CHECK FOR KEY ERRORSS
+    if chosenCategory == None:
+        print("No category found with that name please try again.")
+        main_menu()
+        
+    else:
+        return(chosenCategory)
+
+## Handle key errors: input
+def module_input_checker(chosenCategory):
+    print(list_modules(chosenCategory))
+    chosenModule = load_chosen_module(chosenCategory, input("Pick a module: "))
+
+    if chosenModule == None:
+        print("No module found with that name please try again.")
+        module_menu(chosenCategory)
+    else:
+        return chosenModule
 
 
 ## main menu
 def main_menu():
-    print(list_categories())
-    # chosen_category = load_category(input("Pick a category: "))
+    chosenCategory = category_input_checker()
+    module_menu(chosenCategory)
 
-    chosenCategory = input("Pick a category: ")
-    moduleList = list_modules(load_chosen_category(chosenCategory))
-    # after picking category and loading list of modules start the module_menu
-    return module_menu(moduleList, chosenCategory)
-    
 
-## module menu
-def module_menu(moduleList, chosenCategory):
-    print(moduleList)
-    chosenModule = input("Pick a module: ")
-    return load_chosen_module(chosenCategory, chosenModule)
-    
-
-##load the question and answer banks from chosen menu options
-QA_DATA_BANK = main_menu()
-QUESTION_BANK = []
-ANSWER_BANK = []
-for q, a in QA_DATA_BANK.items():
-    QUESTION_BANK.append(q)
-    ANSWER_BANK.append(a)
-    
+## seccondary module menu
+def module_menu(chosenCategory):
+    chosenModule = module_input_checker(chosenCategory)
+    data_bank_builder(chosenModule)
 
 
 
-def game():
+#load the question and answer banks from chosen menu options
+def data_bank_builder(chosenModule):
+    QA_DATA_BANK = chosenModule
+    QUESTION_BANK = []
+    ANSWER_BANK = []
+    for q, a in QA_DATA_BANK.items():
+        QUESTION_BANK.append(q)
+        ANSWER_BANK.append(a)
+    game(QUESTION_BANK,ANSWER_BANK)
+
+
+def game(QUESTION_BANK, ANSWER_BANK):
     cls = lambda: print('\n'*100)
     indexLength = len(QUESTION_BANK) - 1
     randQuestionIndex = random.randint(0, indexLength)
@@ -79,6 +113,9 @@ def game():
 
     else:
         print(f"Incorrect, the answer is: {correct_answer}")
-    game()
 
-game()
+    game(QUESTION_BANK, ANSWER_BANK)
+
+
+
+main_menu()
