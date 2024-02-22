@@ -61,3 +61,14 @@ for q, a in QA_DATA_BANK.items():
     QUESTION_BANK.append(q)
     ANSWER_BANK.append(a)
 
+
+def game():
+    player_answer = input(f"{QUESTION_BANK[0]}? : $ ")
+    correct_answer = ANSWER_BANK[0]
+    if player_answer == correct_answer:
+        print("Correct!")
+    else:
+        print("Incorrect")
+    game()
+
+game()
