@@ -33,7 +33,7 @@ def load_chosen_category(arg):
     try:
         data[arg]
     except KeyError:
-        print("load_chosen_category: Key Error:")
+        print("load_chosen_category: KeyError:")
         return None
     else:
         return data[arg]
@@ -44,7 +44,7 @@ def load_chosen_module(chosenCatDict, ChosenModule):
     try:
         chosenCatDict[ChosenModule]
     except KeyError:
-        print("Load_chosen_module: KeyError")
+        print("load_chosen_module: KeyError:")
         return None
     else:
         return chosenCatDict[ChosenModule]
@@ -56,7 +56,7 @@ def category_input_checker():
     chosenCategory = load_chosen_category(input("Pick a category: "))
     ## CHECK FOR KEY ERRORSS
     if chosenCategory == None:
-        print("No category found with that name please try again.")
+        print("No category found with that name please try again. (case sensitive)")
         main_menu()
         
     else:
@@ -68,7 +68,7 @@ def module_input_checker(chosenCategory):
     chosenModule = load_chosen_module(chosenCategory, input("Pick a module: "))
 
     if chosenModule == None:
-        print("No module found with that name please try again.")
+        print("No module found with that name please try again. (case sensitive)")
         module_menu(chosenCategory)
     else:
         return chosenModule
