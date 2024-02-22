@@ -25,9 +25,9 @@ def list_modules(chosenCategory):
     return modulesList
 
 ## return a dictonary of a specific category key
-def load_chosen_category(input):
+def load_chosen_category(arg):
     data = load_json()
-    return data[input]
+    return data[arg]
 
 ## return the data of a chosen category & module 
 def load_chosen_module(chosenCat, chosenMod):
@@ -53,17 +53,11 @@ def module_menu(moduleList, chosenCategory):
     return load_chosen_module(chosenCategory, chosenModule)
     
 
-## start main menu
+##load the question and answer banks from chosen menu options
 QA_DATA_BANK = main_menu()
-
 QUESTION_BANK = []
 ANSWER_BANK = []
-
 for q, a in QA_DATA_BANK.items():
     QUESTION_BANK.append(q)
     ANSWER_BANK.append(a)
-
-print(QUESTION_BANK[4])
-print(ANSWER_BANK[4])
-
 
