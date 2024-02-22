@@ -113,6 +113,7 @@ def data_bank_builder(chosenModule):
 ## main game logic
 def game(QUESTION_BANK, ANSWER_BANK):
 
+    ### a sudo clear screen to print 100 new lines
     cls = lambda: print('\n'*100)
         
 
@@ -125,7 +126,7 @@ def game(QUESTION_BANK, ANSWER_BANK):
         question = QUESTION_BANK[index]
         return question, index
 
-    def load_question_answer_from_index(index):
+    def load_answer_from_index(index):
         answerAtIndex = ANSWER_BANK[index]
         return answerAtIndex
     
@@ -139,9 +140,6 @@ def game(QUESTION_BANK, ANSWER_BANK):
         print(QUESTION_BANK[index])
         return question, index
     
-    def print_answer(index):
-        print(ANSWER_BANK[index])
-        return
 
     def prompt_for_answer():
         player_answer = input("$ ")
@@ -149,7 +147,7 @@ def game(QUESTION_BANK, ANSWER_BANK):
     
 
     def check_answer_is_correct(player_answer, index_of_correct_answer):
-        correct_answer = load_question_answer_from_index(index_of_correct_answer)
+        correct_answer = load_answer_from_index(index_of_correct_answer)
         if player_answer == correct_answer:
             return True
         else:
@@ -173,7 +171,7 @@ def game(QUESTION_BANK, ANSWER_BANK):
                 print(f"CORRECT!")
                 initalize_new_question()
             else:
-                print(f"WRONG: \n The correct answer is:", load_question_answer_from_index(index))
+                print(f"WRONG: \n The correct answer is:", load_answer_from_index(index))
                 
                 initalize_same_question(index)
             
