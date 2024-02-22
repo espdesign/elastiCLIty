@@ -1,120 +1,56 @@
-# import json
-
-# def loadcards(category, module):
-#     f = open('cards.json')
-#     data = json.load(f)
-#     f.close()
- 
-#     for i in data[category]:
-#         print(i)
-
-#     return(data[category][module])
-
-# loadcards("Linux", "0")
-
 import json
 
-QA_BANK = []
-ERROR_INPUT_OPTION = "ERROR: input is not available"
-
-"""
-
-Load from cardbank.json
-
-"""
-
-def load_cards(category="", module="", flag=""):
+def load_json():
     f = open('cardbank.json')
     data = json.load(f)
     f.close()
-
-    # define data return variables
-    cardbankQuestions = []
-    cardbankAnswers = []
-    cardbankCategorys = []
-    cardbankModules = []
-
-    ## First find categorys available
-    for i in data.items():
-        cardbankCategorys.append(i[0])
-
-    ## Check for options, if no options exist. return the categorys.
-        
-    ## First check if module was chosen, if null then skip over and check for category
-    if (module):
-        try:
-            for question, answer in data[category][module].items():
-                cardbankQuestions.append(question)
-                cardbankAnswers.append(answer)
-            
-            return(cardbankQuestions, cardbankAnswers)
-        
-        except KeyError:
-            return KeyError
-        
-            
-
-
-        
-    ## first startup of program category should be empty                
-    if (category == ""):
-        return cardbankCategorys
+    return data
     
-    ## once category is chosen return the list of categorys in our cardbank.json
-    elif (category):
-        # print("category:", category)
-        try:
-            for i in data[category].items():
-                cardbankModules.append(i[0]) 
-            return cardbankModules
-        except KeyError:
-            return KeyError
-       
-        
-    
-    ## function that will prompt the user to load a question bank
-def create_QA_bank(category="", module="", flag=""):
-    # Create and prompt for category menu
-    def main_menu_():
+def list_categories():
+    categories = []
+    for i in load_json().keys():
+        categories.append(i)
+    return categories
 
-        main_menu_list = load_cards()
-        print(main_menu_list)
-        chosenCat = input("? Please choose an category: ")
-    
-        module_menu_list = load_cards(category=chosenCat)
+def list_modules(chosenCategory):
+    modulesList = []
+    for i in chosenCategory.keys():
+        modulesList.append(i)
+    return modulesList
 
-        if module_menu_list == KeyError:
-            print(ERROR_INPUT_OPTION)
-            main_menu_()
-        else:
-            print(module_menu_list)
-            return module_menu_(chosenCat, input("? Please choose a module: "))
-            
+def load_chosen_category(input):
+    data = load_json()
+    return data[input]
 
-    def module_menu_(chosenCat, chosenMod):
-    #load the chosen module into the global question and answer bank list
-        loadedModuleBank = load_cards(category=chosenCat, module=chosenMod)
-        if loadedModuleBank == KeyError:
-            print(ERROR_INPUT_OPTION)
-            module_menu_(chosenCat, input("? Please choose a module: "))
-        else:
-            return loadedModuleBank
-    
-    return main_menu_()
-    
+def load_chosen_module(chosenCat, chosenMod):
+    data = load_json()[chosenCat][chosenMod]
+    return data
 
 
-    # Create and prompt for module menu
-    
+def main_menu():
+    print(list_categories())
+    # chosen_category = load_category(input("Pick a category: "))
 
-"""
-
-
-START OF PROGRAM
-
-
-"""
-QA_BANK = create_QA_bank()
+    chosenCategory = input("Pick a category: ")
+    moduleList = list_modules(load_chosen_category(chosenCategory))
+    # after picking category and loading list of modules start the module_menu
+    module_menu(moduleList, chosenCategory)
 
 
-print(QA_BANK)
+
+def module_menu(moduleList, chosenCategory):
+    print(moduleList)
+    chosenModule = input("Pick a module: ")
+    moduleFinal = load_chosen_module(chosenCategory, chosenModule)
+    print(moduleFinal)
+
+# def list_modules(category):
+#     data = load_json()
+#     print(data[category])
+
+    # for i in data[category]:
+    #     modules.append(i)
+    # return modules
+
+
+main_menu()

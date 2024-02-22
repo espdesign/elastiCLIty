@@ -33,5 +33,35 @@
         "ZQ"
       ]
     }
+  },
+  "Category three": {
+    "module 3": {
+      "Move cursor down one line": "j",
+      "Move cursor up one line": "k",
+      "Move cursor left one space": "h",
+      "Move cursor righ one space": "l"
+    },
+    "module 4": {
+      "delete (cut) a line ": "dd",
+      "quit and throw away unsaved changes ": [
+        "q!",
+        "ZQ"
+      ]
+    }
+  },
+  "Category four": {
+    "module 3": {
+      "Move cursor down one line": "j",
+      "Move cursor up one line": "k",
+      "Move cursor left one space": "h",
+      "Move cursor righ one space": "l"
+    },
+    "module 4": {
+      "delete (cut) a line ": "dd",
+      "quit and throw away unsaved changes ": [
+        "q!",
+        "ZQ"
+      ]
+    }
   }
 }
