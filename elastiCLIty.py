@@ -1,14 +1,17 @@
 import json
 import random
 
-"""
+"""""
 ########################
     START OF 
     MENU SYSTEM
-#######################
+#########""##############
 """
+## Clear screen by printing 100 blank newlines
+def cls():
+    print('\n'*100)
+
 ## Load data from file
-cls = lambda: print('\n'*100)
 def load_json():
     f = open('cardbank.json')
     data = json.load(f)
@@ -25,7 +28,7 @@ def list_categories():
 
 ## List the modules from the chosenCategory listed in cardbank.json file
 def list_modules(chosenCategory):
-    if chosenCategory == None:
+    if chosenCategory is None:
         return None
     else: 
         modulesList = []
@@ -63,7 +66,7 @@ def pick_category_by_input():
     print(list_categories())
     chosenCategory = category_exist_check(input("Pick a category: "))
     ## CHECK FOR KEY ERRORSS
-    if chosenCategory == None:
+    if chosenCategory is None:
         print("No category found with that name please try again. (case sensitive)")
         main_menu("Error")
         
@@ -75,7 +78,7 @@ def module_input_checker(chosenCategory):
     print(list_modules(chosenCategory))
     chosenModule = load_chosen_module(chosenCategory, input("Pick a module: "))
 
-    if chosenModule == None:
+    if chosenModule is None:
         print("No module found with that name please try again. (case sensitive)")
         module_menu(chosenCategory, "Error")
     else:
@@ -155,12 +158,6 @@ def game(QUESTION_BANK, ANSWER_BANK):
         question = (QUESTION_BANK[index])
         return index, question
     
-    ## print a question and return questions index
-    # def display_question_and_return_index():
-    #     index = random_question_index()
-    #     print(QUESTION_BANK[index], end="")
-    #     return index
-
     ## prompt the player for a answer and return the input
     def prompt_input():
         return input(": $ ")
@@ -178,7 +175,7 @@ def game(QUESTION_BANK, ANSWER_BANK):
     def is_answer_correct(player_input, index):
 
         ## First check for multiple answers in list form
-        if is_answer_at_index_type_list(index) == True:
+        if is_answer_at_index_type_list(index) is True:
             ## Itterate over the list of answers to check to see if 
             ## player input matches one of them
             answer_list = get_answer_from_index(index)
@@ -205,7 +202,7 @@ def game(QUESTION_BANK, ANSWER_BANK):
 
     def should_next_or_same_question(index, answer):
 
-        if is_answer_correct(answer, index) == True:
+        if is_answer_correct(answer, index) is True:
             # print(f"CORRECT!")
             display = "CORRECT: Next Question..."
             init_question(display)
