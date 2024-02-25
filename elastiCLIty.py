@@ -34,13 +34,13 @@ def list_modules(chosenCategory):
         return modulesList
 
 ## return a dictonary of a specific category key
-def load_chosen_category(arg):
+def category_exist_check(arg):
     data = load_json()
     try:
         data[arg]
     except KeyError:
         cls()
-        print("load_chosen_category: KeyError:")
+        # print("load_chosen_category: KeyError:")
         return None
     else:
         return data[arg]
@@ -52,20 +52,20 @@ def load_chosen_module(chosenCatDict, ChosenModule):
         chosenCatDict[ChosenModule]
     except KeyError:
         cls()
-        print("load_chosen_module: KeyError:")
+        # print("load_chosen_module: KeyError:")
         return None
     else:
         return chosenCatDict[ChosenModule]
 
 
 ## Handle key errors: input
-def category_input_checker():
+def pick_category_by_input():
     print(list_categories())
-    chosenCategory = load_chosen_category(input("Pick a category: "))
+    chosenCategory = category_exist_check(input("Pick a category: "))
     ## CHECK FOR KEY ERRORSS
     if chosenCategory == None:
         print("No category found with that name please try again. (case sensitive)")
-        main_menu()
+        main_menu("Error")
         
     else:
         return(chosenCategory)
@@ -77,23 +77,25 @@ def module_input_checker(chosenCategory):
 
     if chosenModule == None:
         print("No module found with that name please try again. (case sensitive)")
-        module_menu(chosenCategory)
+        module_menu(chosenCategory, "Error")
     else:
         return chosenModule
 
 
 ## main menu
-def main_menu():
-    cls()
+def main_menu(arg=""):
+    if arg != "Error":
+        cls()
     ## pick a category and check to see if category exists.
-    chosenCategory = category_input_checker()
+    chosenCategory = pick_category_by_input()
     ## load the modules from the chosen category
     module_menu(chosenCategory)
 
 
 ## seccondary module menu
-def module_menu(chosenCategory):
-    cls()
+def module_menu(chosenCategory, arg = ""):
+    if arg != "Error":
+        cls()
     ## pick a module, check to see if module exists
     chosenModule = module_input_checker(chosenCategory)
     ## load the modules into the databank of questions:answers
