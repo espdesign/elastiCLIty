@@ -85,22 +85,27 @@ def module_input_checker(chosenCategory):
 ## main menu
 def main_menu():
     cls()
+    ## pick a category and check to see if category exists.
     chosenCategory = category_input_checker()
+    ## load the modules from the chosen category
     module_menu(chosenCategory)
 
 
 ## seccondary module menu
 def module_menu(chosenCategory):
     cls()
+    ## pick a module, check to see if module exists
     chosenModule = module_input_checker(chosenCategory)
+    ## load the modules into the databank of questions:answers
     data_bank_builder(chosenModule)
 
 
 """
-########################
-    START OF 
-    GAME SYSTEM
-#######################
+############################
+    DATABANK LOGIC
+    BUILD THE QUESTION 
+    AND ANSWER BANKS
+############################
 """
 
 #load the question and answer banks from chosen menu options
@@ -111,7 +116,16 @@ def data_bank_builder(chosenModule):
     for q, a in QA_DATA_BANK.items():
         QUESTION_BANK.append(q)
         ANSWER_BANK.append(a)
+
+    ## send the QUESTION AND ANSWER BANK's to the game logic
     game(QUESTION_BANK,ANSWER_BANK)
+
+"""
+########################
+    START OF 
+    GAME SYSTEM
+#######################
+"""
 
 
 ## main game logic
