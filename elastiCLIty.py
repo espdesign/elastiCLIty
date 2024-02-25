@@ -150,23 +150,35 @@ def game(QUESTION_BANK, ANSWER_BANK):
         questionAtIndex = QUESTION_BANK[index]
         return questionAtIndex
 
-    ## print a question and return questions index
-    def print_question_return_index():
+    def random_index_and_its_question():
         index = random_question_index()
-        print(QUESTION_BANK[index], end="")
-        return index
+        question = (QUESTION_BANK[index])
+        return index, question
     
+    ## print a question and return questions index
+    # def display_question_and_return_index():
+    #     index = random_question_index()
+    #     print(QUESTION_BANK[index], end="")
+    #     return index
+
     ## prompt the player for a answer and return the input
-    def prompt_for_answer_return_input():
-        player_answer = input(": $ ")
-        return player_answer
+    def prompt_input():
+        return input(": $ ")
     
+    ## Return true if answer at index is a List
+    def is_answer_at_index_a_list(index):
+        answer = load_answer_from_index(index)
+        if isinstance(answer, list):
+            return True
+        else:
+            return False
+
     ## check if answer is correct using the player input and and 
     ## the answer key from an index
-    def check_answer_is_correct(player_input, index):
+    def is_answer_correct(player_input, index):
 
         ## First check for multiple answers in list form
-        if check_answer_has_list_multiple(index) == True:
+        if is_answer_at_index_a_list(index) == True:
             ## Itterate over the list of answers to check to see if 
             ## player input matches one of them
             answer_list = load_answer_from_index(index)
@@ -191,45 +203,41 @@ def game(QUESTION_BANK, ANSWER_BANK):
     #######################
     """
 
-    def answer_is_bool_logic(bool, index):
-        if bool == True:
+    
+
+    def question_logic(display):
+        cls()
+        print(display)
+
+        index, question = random_index_and_its_question()
+        print(question, end= "")
+        
+        answer = prompt_input()
+        if is_answer_correct(answer, index) == True:
             # print(f"CORRECT!")
             display = "CORRECT: Next Question..."
             question_logic(display)
         else:
             display = f"WRONG: The correct answer is: {load_answer_from_index(index)}"
             # print(f"WRONG: \n The correct answer is:", load_answer_from_index(index))
-            initalize_same_question(index, display)
+            same_question_logic(index, display)
 
-    def question_logic(display):
-        cls()
-        print(display)
-        index = print_question_return_index()
-        grab_player_answer_true_or_false(index)
 
   
-    def initalize_same_question(index, display):
+    def same_question_logic(index, display):
         cls()
         print(display)
+
         print(load_question_from_index(index), end = "")
-        grab_player_answer_true_or_false(index)
-
-    def grab_player_answer_true_or_false(index):
-        player_answer = prompt_for_answer_return_input()
-        bool = check_answer_is_correct(player_answer, index)
-        answer_is_bool_logic(bool, index)
-
-    
-    def check_answer_has_list_multiple(index):
-        answer = load_answer_from_index(index)
-        if isinstance(answer, list):
-            return True
+        answer = prompt_input()
+        if is_answer_correct(answer, index) == True:
+            # print(f"CORRECT!")
+            display = "CORRECT: Next Question..."
+            question_logic(display)
         else:
-            return False
-
-
-        print("More than one answer")
-
+            display = f"WRONG: The correct answer is: {load_answer_from_index(index)}"
+            # print(f"WRONG: \n The correct answer is:", load_answer_from_index(index))
+            same_question_logic(index, display)
 
 
     """
