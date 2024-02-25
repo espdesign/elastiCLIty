@@ -161,7 +161,8 @@ def game(QUESTION_BANK, ANSWER_BANK):
         player_answer = input(": $ ")
         return player_answer
     
-    ## check if answer is correct using the player input and an the answer key from an index
+    ## check if answer is correct using the player input and and 
+    ## the answer key from an index
     def check_answer_is_correct(player_input, index):
         if player_input == load_answer_from_index(index):
             return True
