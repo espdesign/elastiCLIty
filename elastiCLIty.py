@@ -142,15 +142,15 @@ def game(QUESTION_BANK, ANSWER_BANK):
         return random.randint(0, QUESTION_BANK_indexLength)
     
     ## return a answer key from a designated index
-    def load_answer_from_index(index):
+    def get_answer_from_index(index):
         answerAtIndex = ANSWER_BANK[index]
         return answerAtIndex
     ## return a question from a designated index
-    def load_question_from_index(index):
+    def get_question_from_index(index):
         questionAtIndex = QUESTION_BANK[index]
         return questionAtIndex
 
-    def random_index_and_its_question():
+    def get_random_index_and_question():
         index = random_question_index()
         question = (QUESTION_BANK[index])
         return index, question
@@ -166,8 +166,8 @@ def game(QUESTION_BANK, ANSWER_BANK):
         return input(": $ ")
     
     ## Return true if answer at index is a List
-    def is_answer_at_index_a_list(index):
-        answer = load_answer_from_index(index)
+    def is_answer_at_index_type_list(index):
+        answer = get_answer_from_index(index)
         if isinstance(answer, list):
             return True
         else:
@@ -178,10 +178,10 @@ def game(QUESTION_BANK, ANSWER_BANK):
     def is_answer_correct(player_input, index):
 
         ## First check for multiple answers in list form
-        if is_answer_at_index_a_list(index) == True:
+        if is_answer_at_index_type_list(index) == True:
             ## Itterate over the list of answers to check to see if 
             ## player input matches one of them
-            answer_list = load_answer_from_index(index)
+            answer_list = get_answer_from_index(index)
             for i in answer_list:
                 if player_input == i:
                     return True
@@ -191,7 +191,7 @@ def game(QUESTION_BANK, ANSWER_BANK):
             ## return check_answer_is_correct == False
             return False
         
-        elif player_input == load_answer_from_index(index):
+        elif player_input == get_answer_from_index(index):
             return True
         else:
             return False
@@ -203,41 +203,44 @@ def game(QUESTION_BANK, ANSWER_BANK):
     #######################
     """
 
-    
+    def should_next_or_same_question(index, answer):
 
-    def question_logic(display):
-        cls()
-        print(display)
-
-        index, question = random_index_and_its_question()
-        print(question, end= "")
-        
-        answer = prompt_input()
         if is_answer_correct(answer, index) == True:
             # print(f"CORRECT!")
             display = "CORRECT: Next Question..."
-            question_logic(display)
+            init_question(display)
         else:
-            display = f"WRONG: The correct answer is: {load_answer_from_index(index)}"
+            display = f"WRONG: The correct answer is: {get_answer_from_index(index)}"
             # print(f"WRONG: \n The correct answer is:", load_answer_from_index(index))
-            same_question_logic(index, display)
+            init_same_question(index, display)
+    
+
+    def init_question(display):
+        cls()
+        ## Print a display message
+        print(display)
+
+        ## get random index and the index's question
+        index, question = get_random_index_and_question()
+        ## print and prompt question
+        print(question, end= "")
+        answer = prompt_input()
+        ## check answer and control if next question or same question is displayed
+        should_next_or_same_question(index, answer)
 
 
   
-    def same_question_logic(index, display):
+    def init_same_question(index, display):
         cls()
+        ## print a display message
         print(display)
 
-        print(load_question_from_index(index), end = "")
+        ## print a question from a specific index
+        print(get_question_from_index(index), end = "")
+        ## prompt for answer
         answer = prompt_input()
-        if is_answer_correct(answer, index) == True:
-            # print(f"CORRECT!")
-            display = "CORRECT: Next Question..."
-            question_logic(display)
-        else:
-            display = f"WRONG: The correct answer is: {load_answer_from_index(index)}"
-            # print(f"WRONG: \n The correct answer is:", load_answer_from_index(index))
-            same_question_logic(index, display)
+        ## check answer and control if next question or same question is displayed
+        should_next_or_same_question(index,answer)
 
 
     """
@@ -246,7 +249,7 @@ def game(QUESTION_BANK, ANSWER_BANK):
     #########################################
     """
 
-    question_logic(display = "")
+    init_question(display = "")
 
 """
 #########################################
