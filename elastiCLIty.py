@@ -1,7 +1,6 @@
 import json
 import random
 
-
 """
 ########################
     START OF 
@@ -9,6 +8,7 @@ import random
 #######################
 """
 ## Load data from file
+cls = lambda: print('\n'*100)
 def load_json():
     f = open('cardbank.json')
     data = json.load(f)
@@ -39,6 +39,7 @@ def load_chosen_category(arg):
     try:
         data[arg]
     except KeyError:
+        cls()
         print("load_chosen_category: KeyError:")
         return None
     else:
@@ -50,6 +51,7 @@ def load_chosen_module(chosenCatDict, ChosenModule):
     try:
         chosenCatDict[ChosenModule]
     except KeyError:
+        cls()
         print("load_chosen_module: KeyError:")
         return None
     else:
@@ -82,12 +84,14 @@ def module_input_checker(chosenCategory):
 
 ## main menu
 def main_menu():
+    cls()
     chosenCategory = category_input_checker()
     module_menu(chosenCategory)
 
 
 ## seccondary module menu
 def module_menu(chosenCategory):
+    cls()
     chosenModule = module_input_checker(chosenCategory)
     data_bank_builder(chosenModule)
 
@@ -114,86 +118,89 @@ def data_bank_builder(chosenModule):
 def game(QUESTION_BANK, ANSWER_BANK):
 
     ### a sudo clear screen to print 100 new lines
-    cls = lambda: print('\n'*100)
+    
         
-
+    ## Return a random index from the QUESTION_BANK
     def random_question_index():
         QUESTION_BANK_indexLength = len(QUESTION_BANK) - 1
         return random.randint(0, QUESTION_BANK_indexLength)
     
-    def load_question_from_random_index():
-        index = random_question_index()
-        question = QUESTION_BANK[index]
-        return question, index
-
+    ## return a answer key from a designated index
     def load_answer_from_index(index):
         answerAtIndex = ANSWER_BANK[index]
         return answerAtIndex
-    
+    ## return a question from a designated index
     def load_question_from_index(index):
         questionAtIndex = QUESTION_BANK[index]
         return questionAtIndex
 
-    def print_question():
-        question, index = load_question_from_random_index()
-        # print(f"question is: {question}, index is {index}")
-        print(QUESTION_BANK[index])
-        return question, index
+    ## print a question and return questions index
+    def print_question_return_index():
+        index = random_question_index()
+        print(QUESTION_BANK[index], end="")
+        return index
     
-
-    def prompt_for_answer():
-        player_answer = input("$ ")
+    ## prompt the player for a answer and return the input
+    def prompt_for_answer_return_input():
+        player_answer = input(": $ ")
         return player_answer
     
-
-    def check_answer_is_correct(player_answer, index_of_correct_answer):
-        correct_answer = load_answer_from_index(index_of_correct_answer)
-        if player_answer == correct_answer:
+    ## check if answer is correct using the player input and an the answer key from an index
+    def check_answer_is_correct(player_input, index):
+        if player_input == load_answer_from_index(index):
             return True
         else:
             return False
 
-    ## Clear Screen
-    def game_question_loop():
-        
-        def first_question_init():
-            cls()
+    """
+    ########################
+    MAIN QUESTION
+    LOOP LOGIC
+    #######################
+    """
 
-            question, index = print_question()
-            player_answer = prompt_for_answer()
+    def answer_is_bool_logic(bool, index):
+        if bool == True:
+            # print(f"CORRECT!")
+            display = "CORRECT: Next Question..."
+            question_logic(display)
+        else:
+            display = f"WRONG: The correct answer is: {load_answer_from_index(index)}"
+            # print(f"WRONG: \n The correct answer is:", load_answer_from_index(index))
+            initalize_same_question(index, display)
 
-            bool = check_answer_is_correct(player_answer, index)
-            
-            question_next_logic(bool, index)
+    def question_logic(display):
+        cls()
+        print(display)
+        index = print_question_return_index()
+        grab_player_answer_true_or_false(index)
 
-        def question_next_logic(bool, index):
-            if bool == True:
-                print(f"CORRECT!")
-                initalize_new_question()
-            else:
-                print(f"WRONG: \n The correct answer is:", load_answer_from_index(index))
-                
-                initalize_same_question(index)
-            
+  
+    def initalize_same_question(index, display):
+        cls()
+        print(display)
+        print(load_question_from_index(index), end = "")
+        grab_player_answer_true_or_false(index)
 
-        def initalize_new_question():
-            first_question_init()
-        
-        def initalize_same_question(index):
-            print(load_question_from_index(index))
-            player_answer = prompt_for_answer()
-            bool = check_answer_is_correct(player_answer, index)
-            question_next_logic(bool, index)
+    def grab_player_answer_true_or_false(index):
+        player_answer = prompt_for_answer_return_input()
+        bool = check_answer_is_correct(player_answer, index)
+        answer_is_bool_logic(bool, index)
 
-
-
-        first_question_init()
-
-    game_question_loop()
     
-## Start Main Game Loop    
-    game(QUESTION_BANK, ANSWER_BANK)
+    
+    """
+    #########################################
+        INIT FIRST QUESTION
+    #########################################
+    """
 
+    question_logic(display = "")
 
-## Start MAIN MENU
+"""
+#########################################
+    INIT START OF PROGRAM AND MAIN MENU
+#########################################
+"""
+
 main_menu()
