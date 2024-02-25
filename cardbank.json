@@ -12,11 +12,7 @@
       "List the free storage information": "df",
       "Identify the system's network settings": "ifconfig",
       "Identify the other logged-in users": "who"
-    },
-    "module 2": {
-      "Display the date and time one week from now.": "date -d \"week\"",
-      "Display the calender month in Nov 92": "cal nov 92",
-      "Identify the details of the operating system": "uname -a"
+      
     }
   },
   "vi": {
@@ -34,19 +30,25 @@
       ]
     }
   },
-  "Category three": {
+  "test": {
     "module 3": {
       "Move cursor down one line": "j",
       "Move cursor up one line": "k",
       "Move cursor left one space": "h",
       "Move cursor righ one space": "l"
     },
-    "module 4": {
-      "delete (cut) a line ": "dd",
-      "quit and throw away unsaved changes ": [
-        "q!",
-        "ZQ"
-      ]
+    "fam": {
+      "one of your brothers names?": [
+        "jakob",
+        "kyle",
+        "Jakob",
+        "Kyle"
+      ],
+      "one of your parents names?": [
+        "laurie",
+        "brad"
+      ],
+      "Name of your pet": "molly"
     }
   },
   "Category four": {
@@ -64,4 +66,5 @@
       ]
     }
   }
+  
 }
