@@ -164,7 +164,22 @@ def game(QUESTION_BANK, ANSWER_BANK):
     ## check if answer is correct using the player input and and 
     ## the answer key from an index
     def check_answer_is_correct(player_input, index):
-        if player_input == load_answer_from_index(index):
+
+        ## First check for multiple answers in list form
+        if check_answer_has_list_multiple(index) == True:
+            ## Itterate over the list of answers to check to see if 
+            ## player input matches one of them
+            answer_list = load_answer_from_index(index)
+            for i in answer_list:
+                if player_input == i:
+                    return True
+                else:
+                    continue
+            ## if player input does not match any of them  
+            ## return check_answer_is_correct == False
+            return False
+        
+        elif player_input == load_answer_from_index(index):
             return True
         else:
             return False
@@ -205,7 +220,18 @@ def game(QUESTION_BANK, ANSWER_BANK):
         answer_is_bool_logic(bool, index)
 
     
-    
+    def check_answer_has_list_multiple(index):
+        answer = load_answer_from_index(index)
+        if isinstance(answer, list):
+            return True
+        else:
+            return False
+
+
+        print("More than one answer")
+
+
+
     """
     #########################################
         INIT FIRST QUESTION
