@@ -1,0 +1,26 @@
+{
+  "example category": {
+    "example module": {
+      "Example question.": "example answer",
+      "Example question with more than one right answer": ["example answer", "EXAMPLE ANSWER"]
+    },
+    "example module 2":{
+      "Another example question": "another example answer",
+      "Another example question2": "another example answer2",
+      "Another example question3": "another example answer3",
+      "Another example question4": "another example answer4"
+    }
+  },
+  "another category": {
+    "example module": {
+      "Example question.": "example answer",
+      "Example question with more than one right answer": ["ifconfig", "ip link show"]
+    },
+    "example module 2":{
+      "Another example question": "another example answer",
+      "Another example question2": "another example answer2",
+      "Another example question3": "another example answer3",
+      "Another example question4": "another example answer4"
+    }
+  }
+}

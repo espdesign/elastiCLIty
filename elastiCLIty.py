@@ -13,7 +13,7 @@ def cls():
 
 ## Load data from file
 def load_json():
-    f = open('cardbank.json')
+    f = open('modules.json')
     data = json.load(f)
     f.close()
     return data
@@ -102,9 +102,9 @@ def module_menu(chosenCategory, arg = ""):
     ## pick a module, check to see if module exists
     chosenModule = module_input_checker(chosenCategory)
     ## load the modules into the databank of questions:answers
-    question_bank, answer_bank = get_questions_and_answers(chosenModule)
+    QA_BANK = get_questions_and_answers(chosenModule)
        
-    game(question_bank, answer_bank)
+    game(QA_BANK)
 
 
 #load the question and answer banks from chosen Module
@@ -114,8 +114,17 @@ def get_questions_and_answers(chosenModule):
     for question, answer in chosenModule.items():
         question_bank.append(question)
         answer_bank.append(answer)
-    ## send the question and answer banks' to the game logic
-    return question_bank, answer_bank
+
+    class Questions_and_Answer_Bank:
+        def __init__(self):
+            self.question = question_bank
+            self.answer = answer_bank
+            
+    QA_BANK = Questions_and_Answer_Bank()
+    return QA_BANK
+
+
+
 
 """
 ########################
@@ -126,28 +135,28 @@ def get_questions_and_answers(chosenModule):
 
 
 ## main game logic
-def game(question_bank, answer_bank):
+def game(arg):
 
     ### a sudo clear screen to print 100 new lines
+    QA_BANK = arg
     
-        
     ## Return a random index from the QUESTION_BANK
     def random_question_index():
-        QUESTION_BANK_indexLength = len(question_bank) - 1
+        QUESTION_BANK_indexLength = len(QA_BANK.question) - 1
         return random.randint(0, QUESTION_BANK_indexLength)
     
     ## return a answer key from a designated index
     def get_answer_from_index(index):
-        answerAtIndex = answer_bank[index]
+        answerAtIndex = QA_BANK.answer[index]
         return answerAtIndex
     ## return a question from a designated index
     def get_question_from_index(index):
-        questionAtIndex = question_bank[index]
+        questionAtIndex = QA_BANK.question[index]
         return questionAtIndex
 
     def get_random_index_and_question():
         index = random_question_index()
-        question = (question_bank[index])
+        question = (QA_BANK.question[index])
         return index, question
     
     ## prompt the player for a answer and return the input
