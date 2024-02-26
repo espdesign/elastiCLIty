@@ -10,17 +10,16 @@ def load_json():
     f.close()
     return data
             
-def list_categories():
-    categoriesList = []
-    for i in load_json().keys():
-        categoriesList.append(i) 
-    return categoriesList
 
 class JSONBank:
     def __init__(self) -> None:
         self.fullDict = load_json()
-        self.categories = list_categories()
         self.modules = []
+
+        categoryTempList = []
+        for i in load_json().keys():
+            categoryTempList.append(i) 
+        self.categories = categoryTempList
         
     def load_modules_from_category(self, argCategory):
         """
@@ -158,8 +157,6 @@ def study(previousQuestionIndex = None):
             print(f"Incorrect. The correct answer is: {correct_answer}")
             cur_loaded_question.print_question_text()
             player_answer = input()
-            
-    # study()
 
                  
 main_menu()
