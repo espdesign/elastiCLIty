@@ -120,45 +120,46 @@ def main_menu():
         else:
             validInputModule = True
     QA_Bank.import_module(category_input, module_input)
-
     # TODO Create menu system for different modules
-
-    def study(previousQuestionIndex = None):
-        """Gamemode to study without scoring, just a random fast question prompt.
-
-        Args:
-            previousQuestionIndex (integer containing index of previous question, optional):. Defaults to None.
-        """
-
-        if previousQuestionIndex is not None:
-            cur_loaded_question = Question()
-            while cur_loaded_question.index == previousQuestionIndex:
-                cur_loaded_question = Question()
-        else:
-            cur_loaded_question = Question()
-
-        cur_loaded_question.print_question_text()
-        player_answer = input()
-
-        while cur_loaded_question.hasAnsweredCorrectly is False:
-            index = int(cur_loaded_question.index) 
-            correct_answer = QA_Bank.get_answer_from_index(index)
-
-            if player_answer == correct_answer:
-                cls()
-                print("Correct!")
-                cur_loaded_question.hasAnsweredCorrectly = True
-                study(cur_loaded_question.index)
-
-            elif player_answer == "exit":
-                break
-            else:
-                cls()
-                print(f"Incorrect. The correct answer is: {correct_answer}")
-                cur_loaded_question.print_question_text()
-                player_answer = input()
-            
     study()
+
+
+def study(previousQuestionIndex = None):
+    """Gamemode to study without scoring, just a random fast question prompt.
+
+    Args:
+        previousQuestionIndex (integer containing index of previous question, optional):. Defaults to None.
+    """
+
+    if previousQuestionIndex is not None:
+        cur_loaded_question = Question()
+        while cur_loaded_question.index == previousQuestionIndex:
+            cur_loaded_question = Question()
+    else:
+        cur_loaded_question = Question()
+
+    cur_loaded_question.print_question_text()
+    player_answer = input()
+
+    while cur_loaded_question.hasAnsweredCorrectly is False:
+        index = int(cur_loaded_question.index) 
+        correct_answer = QA_Bank.get_answer_from_index(index)
+
+        if player_answer == correct_answer:
+            cls()
+            print("Correct!")
+            cur_loaded_question.hasAnsweredCorrectly = True
+            study(cur_loaded_question.index)
+
+        elif player_answer == "exit":
+            break
+        else:
+            cls()
+            print(f"Incorrect. The correct answer is: {correct_answer}")
+            cur_loaded_question.print_question_text()
+            player_answer = input()
+            
+    # study()
 
                  
 main_menu()
