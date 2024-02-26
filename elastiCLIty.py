@@ -97,7 +97,9 @@ def main_menu():
     validInputCategory = False
     while validInputCategory is False:
         if Databank.is_valid_input(True, category_input) is False:
-            print("Error: Category does not exist.")
+            cls()
+            print(f"Error '{category_input}'is not found in the available categorys.")
+            print(Databank.categories)
             category_input = input("Please choose a category: ")
         else:
             validInputCategory = True
@@ -111,7 +113,9 @@ def main_menu():
     validInputModule = False
     while validInputModule is False:
         if Databank.is_valid_input(False, module_input) is False:
-            print("Error: Module does not exist.")
+            cls()
+            print(f"Error '{module_input}'is not found in the available modules.")
+            print(Databank.modules)
             module_input = input("Please choose a category: ")
         else:
             validInputModule = True
