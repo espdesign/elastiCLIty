@@ -91,17 +91,12 @@ class QuestionEntry():
     """
     def __init__(self) -> None:
         self.index = random.randint(0, len(DATA.answers) - 1)
-        self.answerKey = DATA.answers[self.index]
         self.text = DATA.questions[self.index]
+
+        self.answerKey = DATA.answers[self.index]
         self.playerInput = ""
 
         self.hasAnsweredCorrectly = False
-        self.multipleAnswersExist = False
-        self.isFirstRun = True
-
-        if isinstance(self.answerKey, list):
-            self.multipleAnswersExist = True
-
 
     def is_answer_correct_list(self, argAnswerInput):
         """If Input exists in answer list sets self.hasAnsweredCorrectly to True.
@@ -116,7 +111,7 @@ class QuestionEntry():
     def print_question_text(self):
         print(self.text, end=" $ ")
         return
-    def get_question_from_not_index(self, argIndex):
+    def dont_load_question(self, argIndex):
         while self.index == argIndex:
             self.index = random.randint(0, len(DATA.answers) - 1)
             self.answerKey = DATA.answers[self.index]
@@ -199,11 +194,9 @@ def studyGame():
 
     def get_new_question(index = None):
         StudyQuestionEntry = QuestionEntry()
-        if index is None:
-            return StudyQuestionEntry
-        else:
-            StudyQuestionEntry.get_question_from_not_index(index)
-            return StudyQuestionEntry
+        if index is not None:
+            StudyQuestionEntry.dont_load_question(index)
+        return StudyQuestionEntry
 
     def first_init():
         DATA.load_questions_and_answers(MainMenu.chosenCategory, MainMenu.chosenModule)
