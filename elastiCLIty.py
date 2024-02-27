@@ -201,7 +201,6 @@ def main():
 
 
 def studyGame():
-
     def get_new_question(index=None):
         StudyQuestionEntry = QuestionEntry()
         if index is not None:
