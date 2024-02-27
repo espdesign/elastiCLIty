@@ -1,7 +1,5 @@
-from ast import List
 import json
 import random
-from textwrap import indent
 
 def cls():
     print('\n'*100)
@@ -259,5 +257,5 @@ def studyGame():
                 return False
     first_init()
 
-    
+
 main()
