@@ -1,0 +1,30 @@
+{
+  "c1": {
+    "m1": {
+      "What is the capital of France?": "Paris",
+      "What is the largest planet in our solar system?": "Jupiter",
+      "What is the boiling point of water in Celsius?": "100",
+      "How many continents are there on Earth?": "7"
+    },
+    "example module 2": {
+      "What is the chemical symbol for gold?": "Au",
+      "Who wrote the play 'Romeo and Juliet'?": "William Shakespeare",
+      "What year did the Titanic sink?": "1912",
+      "What is the primary component of air?": "Nitrogen"
+    }
+  },
+  "another category": {
+    "example module": {
+      "Who painted the Mona Lisa?": "Leonardo da Vinci",
+      "What is the speed of light in a vacuum?": "299,792 kilometers per second",
+      "What is the powerhouse of the cell?": "Mitochondria",
+      "What is the chemical symbol for sodium?": "Na"
+    },
+    "example module 2": {
+      "What is the tallest mountain on Earth?": "Mount Everest",
+      "What is the currency of Japan?": "Japanese yen",
+      "What is the capital of Australia?": "Canberra",
+      "Who discovered penicillin?": "Alexander Fleming"
+    }
+  }
+}
