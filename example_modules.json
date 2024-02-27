@@ -12,11 +12,11 @@
     }
   },
   "another category": {
-    "example module": {
+    "another example module": {
       "Example question.": "example answer",
       "Example question with more than one right answer": ["ifconfig", "ip link show"]
     },
-    "example module 2":{
+    "another example module 2":{
       "Another example question": "another example answer",
       "Another example question2": "another example answer2",
       "Another example question3": "another example answer3",
