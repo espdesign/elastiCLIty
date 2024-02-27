@@ -1,5 +1,7 @@
+from ast import List
 import json
 import random
+from textwrap import indent
 
 def cls():
     print('\n'*100)
@@ -65,6 +67,7 @@ class DataBank:
             else:
                 return False
 
+
 class Menu():
     def __init__(self) -> None:
         self.chosenCategory = ""
@@ -90,19 +93,41 @@ class QuestionEntry():
     """
     def __init__(self) -> None:
         self.index = random.randint(0, len(DATA.answers) - 1)
-        self.answer = DATA.answers[self.index]
-        self.question = DATA.questions[self.index]
+        self.answerKey = DATA.answers[self.index]
+        self.text = DATA.questions[self.index]
+        self.playerInput = ""
+
         self.hasAnsweredCorrectly = False
-        self.playerAnswer = ""
+        self.multipleAnswersExist = False
+        self.isFirstRun = True
+
+        if isinstance(self.answerKey, list):
+            self.multipleAnswersExist = True
+
+
+    def is_answer_correct_list(self, argAnswerInput):
+        """If Input exists in answer list sets self.hasAnsweredCorrectly to True.
+
+        Args:
+            argAnswerInput (answer input): the players answer to the question
+        """
+        for i in self.answerKey:
+            if argAnswerInput == i:
+                self.hasAnsweredCorrectly = True
 
     def print_question_text(self):
-        print(self.question, end=" $ ")
+        print(self.text, end=" $ ")
         return
-    
+    def get_question_from_not_index(self, argIndex):
+        while self.index == argIndex:
+            self.index = random.randint(0, len(DATA.answers) - 1)
+            self.answerKey = DATA.answers[self.index]
+            self.text = DATA.questions[self.index]
+
     def get_question_from_index(self, argIndex):
         self.index = argIndex
-        self.answer = DATA.answers[argIndex]
-        self.question = DATA.questions[argIndex]
+        self.answerKey = DATA.answers[argIndex]
+        self.text = DATA.questions[argIndex]
         self.hasAnsweredCorrectly = False
 
     
@@ -137,6 +162,7 @@ Prompt= Display()
 ## Main Logic For Games
 def main():
 
+    ## While loop checking for valid category input
     while MainMenu.menuLevel == "category":
         print(DATA.categories)
         while MainMenu.validInputCategory is False:
@@ -153,7 +179,7 @@ def main():
                 MainMenu.chosenCategory = currentInput
                 DATA.load_module(MainMenu.chosenCategory)
                 print(MainMenu.chosenCategory)
-
+    ## While loop checking for valid module input
     while MainMenu.menuLevel == "module":
         cls()
         print(DATA.modules)
@@ -171,32 +197,67 @@ def main():
                 MainMenu.menuLevel = "none"
                 studyGame()
 
-def studyGame(questionIndex = None):
-    """A gameMode that just randomy chooses a question, if answered incorrectly, 
-    prompts for same question again.
+def studyGame():
 
-    Args:
-        questionIndex (int, optional): index for question that was answered wrong. Defaults to None.
-    """
+    def get_new_question(index = None):
+        StudyQuestionEntry = QuestionEntry()
+        if index is None:
+            return StudyQuestionEntry
+        else:
+            StudyQuestionEntry.get_question_from_not_index(index)
+            return StudyQuestionEntry
+
+    def first_init():
+        DATA.load_questions_and_answers(MainMenu.chosenCategory, MainMenu.chosenModule)
+        question_loop()
     
-    DATA.load_questions_and_answers(MainMenu.chosenCategory, MainMenu.chosenModule)
-    StudyQuestionEntry = QuestionEntry()
+    def question_loop(index = None):
+        promptSymbol = " $ "
 
-    if questionIndex is not None:
-        StudyQuestionEntry.get_question_from_index(questionIndex)
+        if index is None:
+            question = get_new_question()
+        else:
+            question = get_new_question(index)
 
-    print(StudyQuestionEntry.question, end="")
-    StudyQuestionEntry.playerAnswer = Prompt.for_answer()
+        answerIsCorrect = False
+        while answerIsCorrect is False:
+            question.playerInput = input(f"{question.text}{promptSymbol}")
+            answerIsCorrect = check_answer(question.playerInput, question.answerKey)
+            if answerIsCorrect is True:
+                answer_is_correct(question.index)
+            else:
+                answer_is_wrong(question.playerInput, question.answerKey)
 
-    if StudyQuestionEntry.playerAnswer == StudyQuestionEntry.answer:
+
+    def answer_is_wrong(playerInput, answerKey):
+        cls()
+        print(f"Sorry, '{playerInput}' is not correct...")
+        ## check to see if more than one answer exists for correct formatting of print statement
+        if isinstance(answerKey, list):
+            print(f"The correct answer is one of the following, {answerKey}")
+        else:
+            print(f"The correct answer is '{answerKey}'.")
+
+    def answer_is_correct(index):
         cls()
         print("Correct!")
-        studyGame()
-    else:
-        cls()
-        print(f"'{StudyQuestionEntry.playerAnswer}' is incorrect.\nThe correct answer is {StudyQuestionEntry.answer}")
-        studyGame(StudyQuestionEntry.index)
+        question_loop(index)
 
+    def check_answer(playerInput, answerKey):
+        if isinstance(answerKey, list):
+            # print("Answer is a list, checking against all possible answers...")
+            for i in answerKey:
+                # print(f"Checking player input{playerInput}: against {i}")
+                if playerInput == i:
+                    return True 
+ 
+            return False
+        else:
+            if playerInput == answerKey:
+                return True
+            else:
+                return False
+    first_init()
 
-
+    
 main()

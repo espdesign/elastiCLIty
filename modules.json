@@ -1,8 +1,8 @@
 {
   "c1": {
     "m1": {
-      "What is the capital of France?": "Paris",
-      "What is the largest planet in our solar system?": "Jupiter",
+      "What is the capital of France?": ["Paris","paris"],
+      "What is the largest planet in our solar system?": ["Jupiter", "jupiter"],
       "What is the boiling point of water in Celsius?": "100",
       "How many continents are there on Earth?": "7"
     },
