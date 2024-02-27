@@ -154,7 +154,7 @@ Prompt= Display()
 
 ## Main Logic For Games
 def main():
-
+    cls()
     ## While loop checking for valid category input
     while MainMenu.menuLevel == "category":
         print(DATA.categories)

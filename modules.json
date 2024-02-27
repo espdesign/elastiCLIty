@@ -1,16 +1,35 @@
 {
-  "c1": {
-    "m1": {
-      "What is the capital of France?": ["Paris","paris"],
-      "What is the largest planet in our solar system?": ["Jupiter", "jupiter"],
-      "What is the boiling point of water in Celsius?": "100",
-      "How many continents are there on Earth?": "7"
+  "linux": {
+    "easy": {
+      "Display the current date.":"date",
+      "List CPU information": "lscpu",
+      "List bulk storage devices": "lsblk",
+      "Show all system information": "uname -a",
+      "List network information": ["ifconfig", "ip address show"],
+      "Make new directory": "mkdir",
+      "List all items in directory:":"ls -a",
+      "Display the contents of a file":"cat",
+      "Copy a file":"cp",
+      "Display the last 10 lines of a file":"tail",
+      "Print current working directory": "pwd",
+      "Change directory":"cd",
+      "Removes files and directories":"rm",
+      "Print arguments to output":"echo",
+      "Search text data for lines that match argument":"grep",
+      "Pipe output to another command":"|",
+      "Redirect output to a file":">",
+      "Count total number of lines":"wc -l"
+  
     },
-    "example module 2": {
-      "What is the chemical symbol for gold?": "Au",
-      "Who wrote the play 'Romeo and Juliet'?": "William Shakespeare",
-      "What year did the Titanic sink?": "1912",
-      "What is the primary component of air?": "Nitrogen"
+    "medium": {
+      "Search current working directory and filter for all '.txt' files":"ls | grep .txt",
+      "Display the first 10 lines of 'file.txt and redirect to head.txt'.":"head file.txt > head.txt",
+      "Display the contents of 'file.txt' and filter the output to only show lines containing 'password'.":"cat file.txt | grep password",
+      "Count the number of files and directories in the current directory:": "ls | wc -l",
+      "Write the output of the 'ifconfig' command to a file named ifconfig.txt.":"ifconfig > ifconfig.txt",
+      "Search for lines containing the keyword in file.txt and writes the matching lines to output.txt.":"grep 'keyword' file.txt > output.txt"
+    },
+    "hard":{
     }
   },
   "another category": {
