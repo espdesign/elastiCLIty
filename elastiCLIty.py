@@ -1,14 +1,17 @@
 import json
 import random
 
+
 def cls():
-    print('\n'*100)
+    print("\n" * 100)
+
 
 def load_json():
-    f = open('modules.json')
+    f = open("modules.json")
     data = json.load(f)
     f.close()
     return data
+
 
 class DataBank:
     def __init__(self) -> None:
@@ -18,7 +21,7 @@ class DataBank:
         self.categories = []
         for i in self.allData.keys():
             self.categories.append(i)
-        
+
         self.questions = []
         self.answers = []
 
@@ -30,7 +33,7 @@ class DataBank:
             moduleArg (string): the chosen module
         """
         self.moduleDict = self.allData[categoryArg][moduleArg]
-        
+
         for question, answer in self.moduleDict.items():
             self.answers.append(answer)
             self.questions.append(question)
@@ -43,7 +46,7 @@ class DataBank:
         """
         for i in self.allData[categoryArg]:
             self.modules.append(i)
-        
+
     def is_exists(self, isCategory, arg):
         """check to see if data exists inside the DataBank
 
@@ -66,7 +69,7 @@ class DataBank:
                 return False
 
 
-class Menu():
+class Menu:
     def __init__(self) -> None:
         self.chosenCategory = ""
         self.chosenModule = ""
@@ -74,21 +77,22 @@ class Menu():
         self.validInputModule = False
 
         self.menuLevel = "category"
-    
+
     def category_choice(self, categoryArg):
         self.chosenCategory = categoryArg
 
     def module_choice(self, moduleArg):
         self.chosenModule = moduleArg
-    
 
-class QuestionEntry():
-    """has 
+
+class QuestionEntry:
+    """has
     index = int \n
     answer = string \n
     questiontext = string \n
     hasAnsweredCorrectly = bool
     """
+
     def __init__(self) -> None:
         self.index = random.randint(0, len(DATA.answers) - 1)
         self.text = DATA.questions[self.index]
@@ -111,6 +115,7 @@ class QuestionEntry():
     def print_question_text(self):
         print(self.text, end=" $ ")
         return
+
     def dont_load_question(self, argIndex):
         while self.index == argIndex:
             self.index = random.randint(0, len(DATA.answers) - 1)
@@ -123,17 +128,19 @@ class QuestionEntry():
         self.text = DATA.questions[argIndex]
         self.hasAnsweredCorrectly = False
 
-    
-class Display():
+
+class Display:
     def __init__(self) -> None:
         self.promptSymbol = " $ "
 
     def for_category(self):
         tmp = input(f"Please choose a category.{self.promptSymbol}")
         return tmp
+
     def for_module(self):
         tmp = input(f"Please choose a module.{self.promptSymbol}")
         return tmp
+
     def error_does_not_exist(self, inputArg, section):
         """display "inputArg" does not exist in "arg", please try again
 
@@ -142,6 +149,7 @@ class Display():
             arg (string): name of section looking in
         """
         print(f"'{inputArg}' does not exist in {section}, please try again...")
+
     def for_answer(self):
         tmp = input(f"{self.promptSymbol}")
         return tmp
@@ -150,7 +158,8 @@ class Display():
 ### Create Objects
 DATA = DataBank()
 MainMenu = Menu()
-Prompt= Display()
+Prompt = Display()
+
 
 ## Main Logic For Games
 def main():
@@ -186,13 +195,14 @@ def main():
             else:
                 MainMenu.chosenModule = currentInput
                 MainMenu.validInputModule = True
-                cls()                
+                cls()
                 MainMenu.menuLevel = "none"
                 studyGame()
 
+
 def studyGame():
 
-    def get_new_question(index = None):
+    def get_new_question(index=None):
         StudyQuestionEntry = QuestionEntry()
         if index is not None:
             StudyQuestionEntry.dont_load_question(index)
@@ -201,8 +211,8 @@ def studyGame():
     def first_init():
         DATA.load_questions_and_answers(MainMenu.chosenCategory, MainMenu.chosenModule)
         question_loop()
-    
-    def question_loop(index = None):
+
+    def question_loop(index=None):
         promptSymbol = " $ "
 
         if index is None:
@@ -218,7 +228,6 @@ def studyGame():
                 answer_is_correct(question.index)
             else:
                 answer_is_wrong(question.playerInput, question.answerKey)
-
 
     def answer_is_wrong(playerInput, answerKey):
         cls()
@@ -240,14 +249,15 @@ def studyGame():
             for i in answerKey:
                 # print(f"Checking player input{playerInput}: against {i}")
                 if playerInput == i:
-                    return True 
- 
+                    return True
+
             return False
         else:
             if playerInput == answerKey:
                 return True
             else:
                 return False
+
     first_init()
 
 
