@@ -9,155 +9,194 @@ def load_json():
     data = json.load(f)
     f.close()
     return data
-            
 
-class JSONBank:
+class DataBank:
     def __init__(self) -> None:
-        self.fullDict = load_json()
+        self.allData = load_json()
         self.modules = []
 
-        categoryTempList = []
-        for i in load_json().keys():
-            categoryTempList.append(i) 
-        self.categories = categoryTempList
+        self.categories = []
+        for i in self.allData.keys():
+            self.categories.append(i)
         
-    def load_modules_from_category(self, argCategory):
-        """
-        Return list of modules in a chosen category
-        """
-        # modulesList = []
-        data = load_json()
-        for i in data[argCategory]:
-            self.modules.append(i)
-        # return modulesList
-    def is_valid_input(self, isCat, argCM):
-        if isCat is True:
-            if argCM in self.categories:
-                return True
-            else:
-                return False
-        else:
-            if argCM in self.modules:
-                return True
-            else:
-                return False
-
-
-class QuestionAnswersBank():
-    def __init__(self) -> None:
-        self.module = []
-        self.moduleDict = {}
-
-        self.answers = []
         self.questions = []
+        self.answers = []
 
-    def import_module(self, argCategory, argModule):
-        self.module = argModule
-        self.moduleDict = Databank.fullDict[argCategory][argModule]
+    def load_questions_and_answers(self, categoryArg, moduleArg):
+        """load questions and answers from category and module choices
+
+        Args:
+            categoryArg (string): the chosen category
+            moduleArg (string): the chosen module
+        """
+        self.moduleDict = self.allData[categoryArg][moduleArg]
         
         for question, answer in self.moduleDict.items():
             self.answers.append(answer)
             self.questions.append(question)
+
+    def load_module(self, categoryArg):
+        """load a module from a chosen category
+
+        Args:
+            categoryArg (string): a chosen category from input
+        """
+        for i in self.allData[categoryArg]:
+            self.modules.append(i)
+        
+    def is_exists(self, isCategory, arg):
+        """check to see if data exists inside the DataBank
+
+        Args:
+            isCategory (bool): is the requested check a category?
+            arg (string"): the name of category or module
+
+        Returns:
+            bool: if the requested item exists returns True or False
+        """
+        if isCategory is True:
+            if arg in self.categories:
+                return True
+            else:
+                return False
+        else:
+            if arg in self.modules:
+                return True
+            else:
+                return False
+
+class Menu():
+    def __init__(self) -> None:
+        self.chosenCategory = ""
+        self.chosenModule = ""
+        self.validInputCategory = False
+        self.validInputModule = False
+
+        self.menuLevel = "category"
     
-    def get_answer_from_index(self, argIndex):
-        return self.answers[argIndex]
+    def category_choice(self, categoryArg):
+        self.chosenCategory = categoryArg
+
+    def module_choice(self, moduleArg):
+        self.chosenModule = moduleArg
+    
+
+class QuestionEntry():
+    """has 
+    index = int \n
+    answer = string \n
+    questiontext = string \n
+    hasAnsweredCorrectly = bool
+    """
+    def __init__(self) -> None:
+        self.index = random.randint(0, len(DATA.answers) - 1)
+        self.answer = DATA.answers[self.index]
+        self.question = DATA.questions[self.index]
+        self.hasAnsweredCorrectly = False
+        self.playerAnswer = ""
+
+    def print_question_text(self):
+        print(self.question, end=" $ ")
+        return
     
     def get_question_from_index(self, argIndex):
-        return self.questions[argIndex]
-    
-        
-class Question():
- 
-
-    def __init__(self) -> None:
-        self.index = random.randint(0, len(QA_Bank.answers) - 1)
-        self.answer = QA_Bank.answers[self.index]
-        self.text = QA_Bank.questions[self.index]
+        self.index = argIndex
+        self.answer = DATA.answers[argIndex]
+        self.question = DATA.questions[argIndex]
         self.hasAnsweredCorrectly = False
 
-
-
-    # def get_from_index(self, argIndex):
-    #     pass
-    def print_question_text(self):
-        print(self.text, end=" $ ")
-        return
-
-Databank = JSONBank()
-QA_Bank = QuestionAnswersBank() 
-
-def main_menu():
-    ## Display the category list
-    print(Databank.categories)
     
-    ## Display the module list from category chosen
-    category_input = input("Please choose a category: ")
+class Display():
+    def __init__(self) -> None:
+        self.promptSymbol = " $ "
 
-    validInputCategory = False
-    while validInputCategory is False:
-        if Databank.is_valid_input(True, category_input) is False:
-            cls()
-            print(f"Error '{category_input}'is not found in the available categorys.")
-            print(Databank.categories)
-            category_input = input("Please choose a category: ")
-        else:
-            validInputCategory = True
+    def for_category(self):
+        tmp = input(f"Please choose a category.{self.promptSymbol}")
+        return tmp
+    def for_module(self):
+        tmp = input(f"Please choose a module.{self.promptSymbol}")
+        return tmp
+    def error_does_not_exist(self, inputArg, section):
+        """display "inputArg" does not exist in "arg", please try again
 
-    Databank.load_modules_from_category(category_input)
-    print(Databank.modules)
-
-    ## Load Questions and Answers Into QA_Bank from module chosen
-    module_input = input("Please choose a module: ")
-
-    validInputModule = False
-    while validInputModule is False:
-        if Databank.is_valid_input(False, module_input) is False:
-            cls()
-            print(f"Error '{module_input}'is not found in the available modules.")
-            print(Databank.modules)
-            module_input = input("Please choose a category: ")
-        else:
-            validInputModule = True
-    QA_Bank.import_module(category_input, module_input)
-    # TODO Create menu system for different modules
-    study()
+        Args:
+            inputArg (string): arg that was not found
+            arg (string): name of section looking in
+        """
+        print(f"'{inputArg}' does not exist in {section}, please try again...")
+    def for_answer(self):
+        tmp = input(f"{self.promptSymbol}")
+        return tmp
 
 
-def study(previousQuestionIndex = None):
-    """Gamemode to study without scoring, just a random fast question prompt.
+### Create Objects
+DATA = DataBank()
+MainMenu = Menu()
+Prompt= Display()
+
+## Main Logic For Games
+def main():
+
+    while MainMenu.menuLevel == "category":
+        print(DATA.categories)
+        while MainMenu.validInputCategory is False:
+            currentInput = Prompt.for_category()
+
+            if DATA.is_exists(True, currentInput) is False:
+                cls()
+                Prompt.error_does_not_exist(currentInput, "Categories")
+                print(DATA.categories)
+            else:
+                MainMenu.validInputCategory = True
+                cls()
+                MainMenu.menuLevel = "module"
+                MainMenu.chosenCategory = currentInput
+                DATA.load_module(MainMenu.chosenCategory)
+                print(MainMenu.chosenCategory)
+
+    while MainMenu.menuLevel == "module":
+        cls()
+        print(DATA.modules)
+        while MainMenu.validInputModule is False:
+            currentInput = Prompt.for_module()
+
+            if DATA.is_exists(False, currentInput) is False:
+                cls()
+                Prompt.error_does_not_exist(currentInput, "Modules")
+                print(DATA.modules)
+            else:
+                MainMenu.chosenModule = currentInput
+                MainMenu.validInputModule = True
+                cls()                
+                MainMenu.menuLevel = "none"
+                studyGame()
+
+def studyGame(questionIndex = None):
+    """A gameMode that just randomy chooses a question, if answered incorrectly, 
+    prompts for same question again.
 
     Args:
-        previousQuestionIndex (integer containing index of previous question, optional):. Defaults to None.
+        questionIndex (int, optional): index for question that was answered wrong. Defaults to None.
     """
+    
+    DATA.load_questions_and_answers(MainMenu.chosenCategory, MainMenu.chosenModule)
+    StudyQuestionEntry = QuestionEntry()
 
-    if previousQuestionIndex is not None:
-        cur_loaded_question = Question()
-        while cur_loaded_question.index == previousQuestionIndex:
-            cur_loaded_question = Question()
+    if questionIndex is not None:
+        StudyQuestionEntry.get_question_from_index(questionIndex)
+
+    print(StudyQuestionEntry.question, end="")
+    StudyQuestionEntry.playerAnswer = Prompt.for_answer()
+
+    if StudyQuestionEntry.playerAnswer == StudyQuestionEntry.answer:
+        cls()
+        print("Correct!")
+        studyGame()
     else:
-        cur_loaded_question = Question()
+        cls()
+        print(f"'{StudyQuestionEntry.playerAnswer}' is incorrect.\nThe correct answer is {StudyQuestionEntry.answer}")
+        studyGame(StudyQuestionEntry.index)
 
-    cur_loaded_question.print_question_text()
-    player_answer = input()
 
-    while cur_loaded_question.hasAnsweredCorrectly is False:
-        index = int(cur_loaded_question.index) 
-        correct_answer = QA_Bank.get_answer_from_index(index)
 
-        if player_answer == correct_answer:
-            cls()
-            print("Correct!")
-            cur_loaded_question.hasAnsweredCorrectly = True
-            study(cur_loaded_question.index)
-
-        elif player_answer == "exit":
-            break
-        else:
-            cls()
-            print(f"Incorrect. The correct answer is: {correct_answer}")
-            cur_loaded_question.print_question_text()
-            player_answer = input()
-
-                 
-main_menu()
-print("Thanks for playing!")
+main()
