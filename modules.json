@@ -18,7 +18,8 @@
       "Search text data for lines that match argument":"grep",
       "Pipe output to another command":"|",
       "Redirect output to a file":">",
-      "Count total number of lines":"wc -l"
+      "Count total number of lines":"wc -l",
+      "list all available block devices and their filesystems":"lsblk -f"
   
     },
     "medium": {
@@ -27,7 +28,8 @@
       "Display the contents of 'file.txt' and filter the output to only show lines containing 'password'.":"cat file.txt | grep password",
       "Count the number of files and directories in the current directory:": "ls | wc -l",
       "Write the output of the 'ifconfig' command to a file named ifconfig.txt.":"ifconfig > ifconfig.txt",
-      "Search for lines containing the keyword in file.txt and writes the matching lines to output.txt.":"grep 'keyword' file.txt > output.txt"
+      "Search for lines containing the keyword in file.txt and writes the matching lines to output.txt.":"grep 'keyword' file.txt > output.txt",
+      "lists names of filesystems supported":"cat /proc/filesystems"
     },
     "hard":{
     }
